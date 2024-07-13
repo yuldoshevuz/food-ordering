@@ -10,7 +10,9 @@ class JwtUtility {
     }
 
     public async validateSignature(req: Request): Promise<boolean> {
-        const signature = req.headers.authorization
+        const authorization = req.headers["authorization"]
+        
+        const signature = authorization?.split(" ")[1]
         if (!signature) {
             return false
         }

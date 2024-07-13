@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express"
-import { VendorLoginInput } from "../dtos/vendor.dto"
+import { EditVendorInput, VendorLoginInput } from "../dtos/vendor.dto"
 import vendorRepo from "../repositories/vendor.repo"
 import passwordUtility from "../utility/password.utility"
 import jwtUtility from "../utility/jwt.utility"
-import { NullExpression } from "mongoose"
 
 class VendorController {
     public async login(req: Request, res: Response, next: NextFunction) {
@@ -39,12 +38,8 @@ class VendorController {
         })
     };
 
-    public async register(req: Request, res: Response, next: NextFunction) {
-        
-    };
-
     public async getVendorProfile(req: Request, res: Response, next: NextFunction) {
-        const user = req.user
+        const { user } = req
 
         if (!user) {
             res.status(404).json({
@@ -60,6 +55,22 @@ class VendorController {
             ok: true,
             vendor: existingVendor
         })
+    };
+
+    public async updateVendorProfile(req: Request, res: Response, next: NextFunction) {
+        const { user } = req
+        const { name, foodType, phone, address } = <EditVendorInput>req.body
+
+        if (user) {
+            const updatedVendor = await vendorRepo.findByIdAndUpdate(user?._id,
+                { foodType, name, address, phone }
+            )
+
+            res.status(200).json({
+                ok: true,
+                data: updatedVendor
+            })
+        }
     };
 }
 

@@ -1,9 +1,10 @@
-import { AuthPayload } from "../../dtos/auth.dto";
+import "express"
+import { AuthPayload } from '../../dtos/auth.dto';
 
 declare global {
     namespace Express {
         interface Request {
-            user?: AuthPayload;
+            user: AuthPayload;
         }
     }
 }

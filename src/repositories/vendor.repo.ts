@@ -1,5 +1,5 @@
 import { EditVendorInput } from "../dtos/vendor.dto";
-import { vendorModel } from "../models/vendor.model";
+import { VendorDoc, vendorModel } from "../models/vendor.model";
 
 class VendorRepo {
     public async findVendors() {
@@ -14,12 +14,12 @@ class VendorRepo {
         return await vendorModel.findOne({ email })
     }
 
-    public async findByIdAndUpdate(id: string, newData: EditVendorInput) {
+    public async findByIdAndUpdate(id: string, newData: VendorDoc) {
         const { name, foodType, address, phone } = newData
 
         const updatedVendor = await vendorModel.findByIdAndUpdate(id,
             { name, foodType, address, phone },
-            { returnOriginal: false, lean: true }
+            { returnOriginal: false }
         );
         return updatedVendor
     }

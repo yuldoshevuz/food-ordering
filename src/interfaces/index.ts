@@ -1,8 +1,11 @@
+import * as express from 'express';
+
 import { AuthPayload } from "../dtos/auth.dto";
 
 declare module "express" {
     interface Request {
         user?: AuthPayload;
+        // files?: Express.Multer.File[]
     }
 }
 

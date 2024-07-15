@@ -1,40 +1,58 @@
-import { Document, Schema, Types, model } from "mongoose";
+import { Schema, SchemaDefinitionProperty, Types, model } from "mongoose";
 
-interface VendorDoc extends Document {
-    name: string;
-    ownerName: string;
-    foodType: [string];
-    pincode: string;
-    address: string;
-    phone: string;
-    email: string;
-    password: string;
-    serviceAvailable: boolean;
-    coverImages: [string];
-    rating: number;
-    foods: any,
-    lat: number;
-    long: number;
+export interface VendorDoc {
+    name?: string;
+    ownerName?: string;
+    foodType?: string[];
+    pincode?: string;
+    address?: string;
+    phone?: string;
+    email?: string;
+    password?: string;
+    serviceAvailable?: boolean;
+    coverImages?: string[];
+    rating?: number;
+    foods?: SchemaDefinitionProperty<Types.ObjectId>[],
+    lat?: number;
+    long?: number;
 }
 
 const vendorSchema = new Schema<VendorDoc>({
-    name: { type: String, required: true },
-    ownerName: { type: String, required: true},
-    foodType: { type: [String] },
-    pincode: { type: String, required: true},
-    address: { type: String},
-    phone: { type: String, required: true},
-    email: { type: String, required: true},
-    password:{ type: String, required: true},
-    serviceAvailable: { type: Boolean},
-    coverImages: { type: [String]},
-    rating: { type: Number},
+    name: {
+        type: String,
+        required: true
+    },
+    ownerName: {
+        type: String,
+        required: true
+    },
+    foodType: [ String ],
+    pincode: {
+        type: String,
+        required: true
+    },
+    address: String,
+    phone: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    password:{
+        type: String,
+        required: true
+    },
+    serviceAvailable: Boolean,
+    coverImages: [ String ],
+    rating: Number,
     foods: [{
         type: Types.ObjectId,
         ref: "food"
     }],
-    lat: { type: Number},
-    long: {type: Number}
+    lat: Number,
+    long: Number
 }, { timestamps: true, versionKey: false })
 
-export const vendorModel = model<VendorDoc>("Vendor", vendorSchema)
+export const vendorModel = model<VendorDoc>("vendor", vendorSchema)
